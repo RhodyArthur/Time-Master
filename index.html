@@ -3,20 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alarm Clock</title>
-    <style>
-        #clock {
-            font-family: Arial, sans-serif;
-            font-size: 2em;
-            text-align: center;
-            margin-top: 20%;
-        }
-
-        #controls {
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
+    <title>Clock</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="clock"></div>
@@ -27,77 +15,8 @@
         <label>
             <input type="radio" name="format" value="12"> 12-hour
         </label>
-        <br>
-        <input type="time" id="alarmTime">
-        <button id="setAlarm">Set Alarm</button>
+
     </div>
-
-    <script>
-        class Clock {
-            constructor() {
-                this.updateTime();
-                this.is24HourFormat = true;
-                this.alarmTime = null;
-            }
-
-            updateTime() {
-                const now = new Date();
-                this.hours = now.getHours();
-                this.minutes = now.getMinutes();
-                this.seconds = now.getSeconds();
-                this.checkAlarm();
-            }
-
-            getFormattedTime() {
-                if (this.is24HourFormat) {
-                    return `${this.hours.toString().padStart(2, '0')}:${this.minutes.toString().padStart(2, '0')}:${this.seconds.toString().padStart(2, '0')}`;
-                } else {
-                    let hours = this.hours;
-                    const period = hours >= 12 ? 'PM' : 'AM';
-                    hours = hours % 12 || 12;
-                    return `${hours.toString().padStart(2, '0')}:${this.minutes.toString().padStart(2, '0')}:${this.seconds.toString().padStart(2, '0')} ${period}`;
-                }
-            }
-
-            set24HourFormat(is24Hour) {
-                this.is24HourFormat = is24Hour;
-            }
-
-            setAlarm(time) {
-                this.alarmTime = time;
-            }
-
-            checkAlarm() {
-                if (this.alarmTime) {
-                    const now = `${this.hours.toString().padStart(2, '0')}:${this.minutes.toString().padStart(2, '0')}`;
-                    if (now === this.alarmTime) {
-                        alert('Alarm ringing!');
-                        this.alarmTime = null;
-                    }
-                }
-            }
-        }
-
-        function updateClockDisplay(clock) {
-            clock.updateTime();
-            document.getElementById('clock').innerText = clock.getFormattedTime();
-        }
-
-        const myClock = new Clock();
-        setInterval(() => updateClockDisplay(myClock), 1000);
-
-        document.querySelectorAll('input[name="format"]').forEach(input => {
-            input.addEventListener('change', (event) => {
-                myClock.set24HourFormat(event.target.value === '24');
-                updateClockDisplay(myClock);
-            });
-        });
-
-        document.getElementById('setAlarm').addEventListener('click', () => {
-            const alarmTime = document.getElementById('alarmTime').value;
-            myClock.setAlarm(alarmTime);
-        });
-    </script>
     <script src="script.js"></script>
 </body>
 </html>
