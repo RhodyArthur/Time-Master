@@ -1,11 +1,44 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.container {
+    width: 350px;
+    height: 200px; 
+    background-color: #3C5B6F;
+    color: #fff;
+    border-radius: 10px;
+    margin: 200px auto; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
 #clock {
-    font-family: Arial, sans-serif;
-    font-size: 2em;
+    font-size: 3rem; 
     text-align: center;
-    margin-top: 20%;
+    padding: 20px;
+    margin-bottom: 20px; 
 }
 
 #controls {
-    text-align: center;
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+}
+
+input[type="radio"] {
+    margin: 0 10px; 
+    cursor: pointer;
+}
+
+.label {
+    font-size: 1rem; 
+    color: #ddd; 
+    margin-right: 10px;
 }
