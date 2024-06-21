@@ -7,17 +7,34 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-        <div class="container">
+    <div class="container">
     <div id="clock"></div>
-    <div id="controls">
+    <div id="controls">        
         <label>
             <input type="radio" name="format" value="24" checked> 24-hour
         </label>
         <label>
             <input type="radio" name="format" value="12"> 12-hour
         </label>
-
+        <!-- alarm implementation -->
+        <br>
+        <div class="alarm">
+            <label>Alarm: </label>
+            <input type="time" name="alarm" id="alarmInput">
+            <button class="set-alarm-btn">Set Alarm</button>
+        </div>
     </div>
+
+    <!-- <div id="controls">
+        <label for="format">Time Format: </label>
+        <select name="format" id="formatOptions">
+            <optgroup label="Time Format">
+                <option value="24-hour">24-hour</option>
+                <option value="12-hour">12-hour</option>
+            </optgroup>
+        </select>
+    </div> -->
+    
 </div>
     <script src="script.js"></script>
 </body>

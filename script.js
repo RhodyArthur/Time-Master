@@ -1,5 +1,8 @@
 const clockEl = document.querySelector('#clock') 
 const radioEl = document.querySelectorAll('input[name="format"]')
+const alarmEl  = document.querySelector('#alarmInput')
+const alarmBtn = document.querySelector('.set-alarm-btn')
+
 // create clock instances and access their properties
 const clockFactory = () => {
     const currentTime = new Date();
@@ -26,6 +29,7 @@ const clockFactory = () => {
             this.minutes = currentTime.getMinutes()
             this.seconds = currentTime.getSeconds()
         }
+
     }
 }
 
@@ -48,7 +52,7 @@ function displayClock(clock, isFormattedTime) {
 // Update the clock display based on selected radio button
 function updateClockDisplay(clock) {
     const selectedFormat = document.querySelector('input[name="format"]:checked').value;
-    const isFormattedTime = selectedFormat === '24'; // Check if 24-hour format is selected
+    const isFormattedTime = selectedFormat === '24';
     displayClock(clock, isFormattedTime);
 }
 
@@ -65,3 +69,18 @@ radioEl.forEach(input => {
         updateClockDisplay(myClock);
     });
 });
+
+
+// set alarm
+alarmBtn.addEventListener('click', function(){setInterval(checkAlarm, 60000)})
+
+function checkAlarm(){
+    const currentTime = new Date()
+    const alarmValue = alarmEl.value
+    let alarmHours = parseInt(alarmValue.substring(0, 2))
+    let alarmMinute = parseInt(alarmValue.substring(3,6))
+
+    if (alarmHours === currentTime.getHours() && alarmMinute === currentTime.getMinutes()){
+        alert('Alarm triggered')
+    }
+}
