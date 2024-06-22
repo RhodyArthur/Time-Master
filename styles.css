@@ -16,7 +16,7 @@ html, body {
     border-radius: 4px;
     border: 1px solid linear-gradient(135deg, #14ffe9, #ffeb3b, #ff00e0);
     background-color: #414141cf;
-    color: #ff0;
+    color: #cacaca;
 }
 .wrapper {
     height: 100px;
