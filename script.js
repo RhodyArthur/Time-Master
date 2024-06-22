@@ -1,7 +1,12 @@
 const clockEl = document.querySelector('#clock') 
 const radioEl = document.querySelectorAll('input[name="format"]')
-const alarmEl  = document.querySelector('#alarmInput')
+const alarmEl  = document.querySelector('#alarm-input')
 const alarmBtn = document.querySelector('.set-alarm-btn')
+const stopBtn = document.querySelector('.stop-alarm')
+const snoozeBtn = document.querySelector('.snooze')
+const alarmAudio = document.querySelector('#alarm-audio')
+
+let snoozeTimeout
 
 // create clock instances and access their properties
 const clockFactory = () => {
@@ -61,6 +66,7 @@ updateClockDisplay(myClock)
 setInterval(() => {
     myClock.updateTime()
      updateClockDisplay(myClock)
+     checkAlarm()
 }, 1000);
 
 
@@ -72,15 +78,66 @@ radioEl.forEach(input => {
 
 
 // set alarm
-alarmBtn.addEventListener('click', function(){setInterval(checkAlarm, 60000)})
+alarmBtn.addEventListener('click', function(){
+    const currentTime = new Date()
+    const alarmValue = alarmEl.value
+    let alarmHours = parseInt(alarmValue.substring(0, 2))
+    let alarmMinute = parseInt(alarmValue.substring(3,5))
+
+      // check for empty string
+      if (!alarmValue){
+        alert('Select a time')
+        return
+    }
+
+    if (alarmHours <= currentTime.getHours() && alarmMinute <= currentTime.getMinutes()){
+        alert('Cannot set time in the past')
+        return
+    }
+    setInterval(checkAlarm, 1000)
+})
 
 function checkAlarm(){
     const currentTime = new Date()
     const alarmValue = alarmEl.value
     let alarmHours = parseInt(alarmValue.substring(0, 2))
-    let alarmMinute = parseInt(alarmValue.substring(3,6))
+    let alarmMinute = parseInt(alarmValue.substring(3,5))
 
-    if (alarmHours === currentTime.getHours() && alarmMinute === currentTime.getMinutes()){
-        alert('Alarm triggered')
+    if (alarmHours === currentTime.getHours() && alarmMinute === currentTime.getMinutes() && currentTime.getSeconds() === 0){
+        alarmAudio.play()
+        stopBtn.classList.remove('hidden')
+        snoozeBtn.classList.remove('hidden')
+        alarmValue.value = ''
     }
 }
+
+// Stop alarm
+stopBtn.addEventListener('click', function() {
+    alarmAudio.pause();
+    alarmAudio.currentTime = 0
+    stopBtn.classList.add('hidden')
+    snoozeBtn.classList.add('hidden')
+
+    clearTimeout(snoozeTimeout)
+});
+
+// snooze alarm
+snoozeBtn.addEventListener('click', function(){
+    alarmAudio.pause()
+    alarmAudio.currentTime = 0
+    stopBtn.classList.add('hidden')
+    snoozeBtn.classList.add('hidden')
+
+    clearTimeout(snoozeTimeout)
+
+   snoozeTimeout = setInterval(()=>{
+        alarmAudio.play()
+        stopBtn.classList.remove('hidden')
+        snoozeBtn.classList.remove('hidden')
+    },60000)
+})
+
+//hide stop button if alarm is done playing
+alarmAudio.addEventListener('ended', ()=>{
+    stopBtn.classList.add('hidden')
+})
